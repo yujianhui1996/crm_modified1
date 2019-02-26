@@ -13,7 +13,7 @@ import com.imadcn.framework.idworker.registry.zookeeper.ZookeeperRegistryCenter;
  * @author comma
  */
 @Configuration
-public class SpringBootConfiguration {
+public class SBC {
     //引用application-dev.yml中的zk：server值注入
     @Value("${zk.server}")
     private String zkServerIp;
