@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.comma.fit.fitcrm.common.mapper.ISysDictMapper">
+	<resultMap id="SysDictEntityMap" type="com.comma.fit.fitcrm.common.entity.SysDictEntity">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="code" jdbcType="VARCHAR" column="code"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="value" jdbcType="VARCHAR" column="value"/>
+	</resultMap>
+	<sql id="BaseColumn">
+		id,
+		code,
+		name,
+		value
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="SysDictEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM sys_dict 
+		WHERE 
+			id = #{id} 
+	</select>
+
+	<!-- 按Id删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM sys_dict WHERE
+		id = #{id} 
+	</delete>
+	 <!-- 插入 -->
+	<insert id="save" parameterType="com.comma.fit.fitcrm.common.entity.SysDictEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sys_dict (
+			id,
+			code,
+			name,
+			value
+		) VALUES (
+			#{id,jdbcType=INTEGER},
+			#{code,jdbcType=VARCHAR},
+			#{name,jdbcType=VARCHAR},
+			#{value,jdbcType=VARCHAR}
+		)
+		
+	</insert>
+	
+	<select id="query" parameterType="com.comma.fit.fitcrm.common.entity.SysDictEntity" resultMap="SysDictEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM sys_dict
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="code!=null and code!=''">
+				and code = #{code}
+			</if>
+			<if test="name!=null and name!=''">
+				and name = #{name}
+			</if>
+			<if test="value!=null and value!=''">
+				and value = #{value}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.comma.fit.fitcrm.common.entity.SysDictEntity">
+		UPDATE sys_dict 
+			<set>
+				<if test="code!=null and code!=''">
+				code = #{code,jdbcType=VARCHAR},
+				</if>
+				<if test="name!=null and name!=''">
+				name = #{name,jdbcType=VARCHAR},
+				</if>
+				<if test="value!=null and value!=''">
+				value = #{value,jdbcType=VARCHAR}
+				</if>
+			</set>
+		WHERE 
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

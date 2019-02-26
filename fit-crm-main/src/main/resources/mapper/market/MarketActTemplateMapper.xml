@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.comma.fit.fitcrm.market.mapper.IMarketActTemplateMapper">
+	<resultMap id="MarketActTemplateEntityMap" type="com.comma.fit.fitcrm.market.entity.MarketActTemplateEntity">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="uri" jdbcType="VARCHAR" column="uri"/>
+		<result property="templateName" jdbcType="VARCHAR" column="template_name"/>
+	</resultMap>
+	<sql id="BaseColumn">
+		id,
+		uri,
+		template_name
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="MarketActTemplateEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM t_market_act_template 
+		WHERE 
+			id = #{id} 
+	</select>
+
+	<!-- 按Id删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM t_market_act_template WHERE
+		id = #{id} 
+	</delete>
+	 <!-- 插入 -->
+	<insert id="save" parameterType="com.comma.fit.fitcrm.market.entity.MarketActTemplateEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_market_act_template (
+			id,
+			uri,
+			template_name
+		) VALUES (
+			#{id,jdbcType=INTEGER},
+			#{uri,jdbcType=VARCHAR},
+			#{templateName,jdbcType=VARCHAR}
+		)
+		
+	</insert>
+	
+	<select id="query" parameterType="com.comma.fit.fitcrm.market.entity.MarketActTemplateEntity" resultMap="MarketActTemplateEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM t_market_act_template
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="uri!=null and uri!=''">
+				and uri = #{uri}
+			</if>
+			<if test="templateName!=null and templateName!=''">
+				and template_name = #{templateName}
+			</if>
+		</where>
+		order by id desc
+	</select>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.comma.fit.fitcrm.market.entity.MarketActTemplateEntity">
+		UPDATE t_market_act_template 
+			<set>
+				<if test="uri!=null and uri!=''">
+				uri = #{uri,jdbcType=VARCHAR},
+				</if>
+				<if test="templateName!=null and templateName!=''">
+				template_name = #{templateName,jdbcType=VARCHAR}
+				</if>
+			</set>
+		WHERE 
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

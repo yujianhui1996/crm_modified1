@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.comma.fit.fitcrm.market.mapper.IMarketChannelMapper">
+	<resultMap id="MarketChannelEntityMap" type="com.comma.fit.fitcrm.market.entity.MarketChannelEntity">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="channelName" jdbcType="VARCHAR" column="channel_name"/>
+		<result property="channelLevel" jdbcType="INTEGER" column="channel_level"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="createUserId" jdbcType="INTEGER" column="create_user_id"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+		<result property="updateUserId" jdbcType="INTEGER" column="update_user_id"/>
+	</resultMap>
+	<sql id="BaseColumn">
+		id,
+		channel_name,
+		channel_level,
+		create_time,
+		create_user_id,
+		update_time,
+		update_user_id
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="MarketChannelEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM t_market_channel 
+		WHERE 
+			id = #{id} 
+	</select>
+
+	<!-- 按Id删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM t_market_channel WHERE
+		id = #{id} 
+	</delete>
+	 <!-- 插入 -->
+	<insert id="save" parameterType="com.comma.fit.fitcrm.market.entity.MarketChannelEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_market_channel (
+			id,
+			channel_name,
+			channel_level,
+			create_time,
+			create_user_id,
+			update_time,
+			update_user_id
+		) VALUES (
+			#{id,jdbcType=INTEGER},
+			#{channelName,jdbcType=VARCHAR},
+			#{channelLevel,jdbcType=INTEGER},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{createUserId,jdbcType=INTEGER},
+			#{updateTime,jdbcType=TIMESTAMP},
+			#{updateUserId,jdbcType=INTEGER}
+		)
+		
+	</insert>
+	
+	<select id="query" parameterType="com.comma.fit.fitcrm.market.entity.MarketChannelEntity" resultMap="MarketChannelEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM t_market_channel
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelName!=null and channelName!=''">
+				and channel_name = #{channelName}
+			</if>
+			<if test="channelLevel!=null and channelLevel!=''">
+				and channel_level = #{channelLevel}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+				and create_time = #{createTime}
+			</if>
+			<if test="createUserId!=null and createUserId!=''">
+				and create_user_id = #{createUserId}
+			</if>
+			<if test="updateTime!=null and updateTime!=''">
+				and update_time = #{updateTime}
+			</if>
+			<if test="updateUserId!=null and updateUserId!=''">
+				and update_user_id = #{updateUserId}
+			</if>
+		</where>
+		order by id desc
+	</select>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.comma.fit.fitcrm.market.entity.MarketChannelEntity">
+		UPDATE t_market_channel 
+			<set>
+				<if test="channelName!=null and channelName!=''">
+				channel_name = #{channelName,jdbcType=VARCHAR},
+				</if>
+				<if test="channelLevel!=null and channelLevel!=''">
+				channel_level = #{channelLevel,jdbcType=INTEGER},
+				</if>
+				<if test="createTime!=null and createTime!=''">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="createUserId!=null and createUserId!=''">
+				create_user_id = #{createUserId,jdbcType=INTEGER},
+				</if>
+				<if test="updateTime!=null and updateTime!=''">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="updateUserId!=null and updateUserId!=''">
+				update_user_id = #{updateUserId,jdbcType=INTEGER}
+				</if>
+			</set>
+		WHERE 
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

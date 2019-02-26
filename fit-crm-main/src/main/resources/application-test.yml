@@ -1,0 +1,111 @@
+server:
+  port: 8185
+  servlet:
+    context-path: /crm
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://120.77.177.183:3306/comma_fit_dev?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&testOnBorrow=true&validationQuery=select 1
+      username: comma-admin
+      password: comma-admin
+      initial-size: 5 # 下面为连接池的补充设置，应用到上面所有数据源中# 初始化大小，最小，最大
+      min-idle: 5
+      max-active: 200
+      max-wait: 120000 # 配置获取连接等待超时的时间
+      time-between-eviction-runs-millis: 28000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      #min-evictable-idle-time-millis: 18000 # 配置一个连接在池中最小生存的时间，单位是毫秒
+      #max-evictable-idle-time-millis: 60000
+      validation-query: SELECT 1
+      #validation-query-timeout: 3000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true # 打开PSCache，并且指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      filter:ilters: stat,wall,log4j # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      connectionProperties: druid.stat.mergeSql:true;druid.stat.slowSqlMillis:5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      #useGlobalDataSourceStat: true
+      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      #是否启用StatFilter默认值true
+      web-stat-filter.enabled: true
+      web-stat-filter.url-pattern: /*
+      web-stat-filter.exclusions: /*.js,*.gif,*.jpg,*.png,*.css,*.ico,*.woff,*.ttf,/myresource/**,/druid/*
+      web-stat-filter.session-stat-enable: true
+      web-stat-filter.session-stat-max-count: 1000
+      web-stat-filter.principal-session-name: USER_SESSION
+      web-stat-filter.principal-cookie-name: USER_COOKIE
+      web-stat-filter.profile-enable: true
+      # StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+      #是否启用StatViewServlet默认值true
+      stat-view-servlet.enabled: true
+      stat-view-servlet.url-pattern: /druid/*
+      stat-view-servlet.reset-enable: true
+      stat-view-servlet.login-username: admin
+      stat-view-servlet.login-password: 123456
+  redis:
+    host: 120.77.177.183
+    port: 6379
+    database: 0
+    timeout: 3s
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+dubbo:
+  provider:
+    loadbalance: roundrobin
+  ## Base packages to scan Dubbo Component：@com.alibaba.dubbo.config.annotation.Service
+  scan:
+    basePackages: com.comma.fit
+  ## ApplicationConfig Bean
+  consumer:
+    loadbalance: roundrobin
+  application:
+    id: fit-crm
+    name: crm-system
+    qos-port: 22222
+    qos-enable: true
+  ## RegistryConfig Bean
+  registry:
+    id: zookeeper
+    address: zookeeper://120.77.177.183:2181
+    #address: edas://120.77.177.183:8080
+    #address: edas://127.0.0.1:8080
+
+
+zk:
+  server: 120.77.177.183:2181
+
+# Enables Dubbo All Endpoints
+management:
+  endpoint:
+    dubbo:
+      enabled: true
+    dubbo-shutdown:
+      enabled: true
+    dubbo-configs:
+      enabled: true
+    dubbo-services:
+      enabled: true
+    dubbo-references:
+      enabled: true
+    dubbo-properties:
+      enabled: true
+  # Dubbo Health
+  health:
+    dubbo:
+      status:
+        ## StatusChecker Name defaults (default : "memory", "load" )
+        defaults: memory
+        ## StatusChecker Name extras (default : empty )
+        extras: load,threadpool
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml

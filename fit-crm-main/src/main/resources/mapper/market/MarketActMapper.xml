@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.comma.fit.fitcrm.market.mapper.IMarketActMapper">
+	<resultMap id="MarketActEntityMap" type="com.comma.fit.fitcrm.market.entity.MarketActEntity">
+		<!--property：entity的属性；column：表字段-->
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="title" jdbcType="VARCHAR" column="title"/>
+		<result property="type" jdbcType="INTEGER" column="type"/>
+		<result property="templateId" jdbcType="INTEGER" column="template_id"/>
+		<result property="rule" jdbcType="VARCHAR" column="rule"/>
+		<result property="startTime" jdbcType="TIMESTAMP" column="start_time"/>
+		<result property="endTime" jdbcType="TIMESTAMP" column="end_time"/>
+		<result property="status" jdbcType="INTEGER" column="status"/>
+		<result property="description" jdbcType="VARCHAR" column="description"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+		<result property="subTitle" jdbcType="VARCHAR" column="sub_title"/>
+		<result property="couponId" jdbcType="INTEGER" column="coupon_id"/>
+		<result property="actChannelId" jdbcType="INTEGER" column="act_channel_id"/>
+		<result property="actUserType" jdbcType="VARCHAR" column="act_user_type"/>
+		<result property="version" jdbcType="INTEGER" column="version"/>
+		<result property="uvCount" jdbcType="INTEGER" column="uv_count"/>
+		<result property="registeredCount" jdbcType="INTEGER" column="registered_count"/>
+		<result property="orderCount" jdbcType="INTEGER" column="order_count"/>
+		<result property="createUserId" jdbcType="INTEGER" column="create_user_id"/>
+		<result property="updateUserId" jdbcType="INTEGER" column="update_user_id"/>
+	</resultMap>
+	<resultMap id="MarketActExtEntityMap" type="com.comma.fit.fitcrm.market.entity.MarketActExtEntity" extends="MarketActEntityMap">
+	</resultMap>
+	<sql id="BaseColumn">
+		id,
+		title,
+		`type`,
+		template_id,
+		rule,
+		start_time,
+		end_time,
+		status,
+		description,
+		create_time,
+		update_time,
+		sub_title,
+		coupon_id,
+		act_channel_id,
+		act_user_type,
+		version,
+		uv_count,
+		registered_count,
+		order_count,
+		create_user_id,
+		update_user_id
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="MarketActEntityMap">
+		SELECT 
+			ma.id,
+			ma.title,
+			ma.type,
+			ma.template_id,
+			ma.status,
+			ma.version,
+			ma.description,
+			ma.create_time,
+			ma.update_time,
+			ma.sub_title,
+			ma.coupon_id,
+			ma.act_channel_id,
+			mat.template_name `templateName`,
+			mc.channel_name `channelName`,
+			ma.act_user_type
+			FROM t_market_act ma
+			left  join t_market_act_template mat on mat.id=ma.template_id
+			left  join t_market_channel mc on mc.id=ma.act_channel_id
+		WHERE
+			ma.id = #{id}
+	</select>
+
+
+	<select id="selectMarketActExtById" parameterType="java.lang.Integer" resultMap="MarketActExtEntityMap">
+		SELECT
+			ma.id,
+			ma.title,
+			ma.type,
+			ma.template_id,
+			ma.status,
+			ma.description,
+			ma.create_time,
+			ma.update_time,
+			ma.sub_title,
+			ma.coupon_id,
+			tc.name `couponName`,
+			tc.valid_days `validDays`,
+			tc.price `couponPrice`,
+			tc.aim `aimId`
+			FROM t_market_act ma
+			left  join t_coupon tc on tc.id = ma.coupon_id
+		WHERE
+			ma.id = #{id}
+	</select>
+
+	<!-- 按Id删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM t_market_act WHERE
+		id = #{id} 
+	</delete>
+	 <!-- 插入 -->
+	<insert id="save" parameterType="com.comma.fit.fitcrm.market.entity.MarketActEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_market_act (
+			id,
+			title,
+			`type`,
+			template_id,
+			rule,
+			start_time,
+			end_time,
+			status,
+			description,
+			create_time,
+			update_time,
+			sub_title,
+			coupon_id,
+			act_channel_id,
+			act_user_type,
+			version,
+			uv_count,
+			registered_count,
+			order_count,
+			create_user_id,
+			update_user_id
+		) VALUES (
+			#{id,jdbcType=INTEGER},
+			#{title,jdbcType=VARCHAR},
+			#{type,jdbcType=INTEGER},
+			#{templateId,jdbcType=INTEGER},
+			#{rule,jdbcType=VARCHAR},
+			#{startTime,jdbcType=TIMESTAMP},
+			#{endTime,jdbcType=TIMESTAMP},
+			#{status,jdbcType=INTEGER},
+			#{description,jdbcType=INTEGER},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{updateTime,jdbcType=TIMESTAMP},
+			#{subTitle,jdbcType=VARCHAR},
+			#{couponId,jdbcType=INTEGER},
+			#{actChannelId,jdbcType=INTEGER},
+			#{actUserType,jdbcType=VARCHAR},
+			#{version,jdbcType=INTEGER},
+			#{uvCount,jdbcType=INTEGER},
+			#{registeredCount,jdbcType=INTEGER},
+			#{orderCount,jdbcType=INTEGER},
+			#{createUserId,jdbcType=INTEGER},
+			#{updateUserId,jdbcType=INTEGER}
+		)
+		
+	</insert>
+	
+	<select id="query" parameterType="com.comma.fit.fitcrm.market.entity.MarketActEntity" resultMap="MarketActEntityMap">
+		SELECT
+			ma.id,
+			ma.title,
+			ma.type,
+			ma.template_id,
+			ma.rule,
+			ma.start_time,
+			ma.end_time,
+			ma.status,
+			ma.description,
+			ma.create_time,
+			ma.update_time,
+			ma.sub_title,
+			ma.coupon_id,
+			ma.act_channel_id,
+			ma.act_user_type,
+			ma.version,
+			ma.uv_count,
+			ma.registered_count,
+			ma.order_count,
+			ma.create_user_id,
+			ma.update_user_id,
+			mat.uri `templateUri`,
+			mc.channel_name `channelName`
+		  FROM t_market_act ma
+		  left  join t_market_channel mc on ma.act_channel_id = mc.id
+		  left  join t_market_act_template mat on mat.id=ma.template_id
+		<where>
+			<if test="title!=null and title!=''">
+				and title = #{title}
+			</if>
+			<if test="channelName!=null and channelName!=''">
+				and mc.channel_name = #{channelName}
+			</if>
+		</where>
+		order by id desc
+	</select>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.comma.fit.fitcrm.market.entity.MarketActEntity">
+		UPDATE t_market_act 
+			<set>
+				<if test="title!=null and title!=''">
+				title = #{title,jdbcType=VARCHAR},
+				</if>
+				<if test="type!=null and type!=''">
+				type = #{type,jdbcType=INTEGER},
+				</if>
+				<if test="templateId!=null and templateId!=''">
+				template_id = #{templateId,jdbcType=INTEGER},
+				</if>
+				<if test="rule!=null and rule!=''">
+				rule = #{rule,jdbcType=VARCHAR},
+				</if>
+				<if test="startTime!=null">
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="endTime!=null">
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="status!=null and status!=''">
+				status = #{status,jdbcType=INTEGER},
+				</if>
+				<if test="description!=null and description!=''">
+				description = #{description,jdbcType=VARCHAR},
+				</if>
+				<if test="updateTime!=null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="subTitle!=null and subTitle!=''">
+				sub_title = #{subTitle,jdbcType=VARCHAR},
+				</if>
+				<if test="couponId!=null and couponId!=''">
+				coupon_id = #{couponId,jdbcType=INTEGER},
+				</if>
+				<if test="actChannelId!=null and actChannelId!=''">
+				act_channel_id = #{actChannelId,jdbcType=INTEGER},
+				</if>
+				<if test="actUserType!=null and actUserType!=''">
+				act_user_type = #{actUserType,jdbcType=VARCHAR},
+				</if>
+				<if test="version!=null and version!=''">
+				version = version+1,
+				</if>
+				<if test="uvCount!=null and uvCount!=''">
+				uv_count = #{uvCount,jdbcType=INTEGER},
+				</if>
+				<if test="registeredCount!=null and registeredCount!=''">
+				registered_count = #{registeredCount,jdbcType=INTEGER},
+				</if>
+				<if test="orderCount!=null and orderCount!=''">
+				order_count = #{orderCount,jdbcType=INTEGER},
+				</if>
+				<if test="createUserId!=null and createUserId!=''">
+				create_user_id = #{createUserId,jdbcType=INTEGER},
+				</if>
+				<if test="updateUserId!=null and updateUserId!=''">
+				update_user_id = #{updateUserId,jdbcType=INTEGER}
+				</if>
+			</set>
+		WHERE 
+			id = #{id,jdbcType=INTEGER} and version =#{version,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

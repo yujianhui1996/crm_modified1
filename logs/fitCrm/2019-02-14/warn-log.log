@@ -1,0 +1,55 @@
+2019-02-14 18:49:24.059 [main] WARN  com.alibaba.dubbo.config.spring.beans.factory.annotation.ServiceAnnotationBeanPostProcessor -  [DUBBO] The BeanDefinition[Root bean: class [com.alibaba.dubbo.config.spring.ServiceBean]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null] of ServiceBean has been registered with name : ServiceBean:redisServiceImpl:com.comma.fit.fitcrm.common.service.RedisService:1.0.0, dubbo version: 2.6.4, current host: 172.16.3.178
+2019-02-14 18:49:24.061 [main] WARN  com.alibaba.dubbo.config.spring.beans.factory.annotation.ServiceAnnotationBeanPostProcessor -  [DUBBO] The BeanDefinition[Root bean: class [com.alibaba.dubbo.config.spring.ServiceBean]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null] of ServiceBean has been registered with name : ServiceBean:sysDictServiceImpl:com.comma.fit.fitcrm.common.service.ISysDictService:1.0.0, dubbo version: 2.6.4, current host: 172.16.3.178
+2019-02-14 18:49:24.062 [main] WARN  com.alibaba.dubbo.config.spring.beans.factory.annotation.ServiceAnnotationBeanPostProcessor -  [DUBBO] The BeanDefinition[Root bean: class [com.alibaba.dubbo.config.spring.ServiceBean]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null] of ServiceBean has been registered with name : ServiceBean:couponServiceImpl:com.comma.fit.fitcrm.market.service.ICouponService:1.0.0, dubbo version: 2.6.4, current host: 172.16.3.178
+2019-02-14 18:49:24.062 [main] WARN  com.alibaba.dubbo.config.spring.beans.factory.annotation.ServiceAnnotationBeanPostProcessor -  [DUBBO] The BeanDefinition[Root bean: class [com.alibaba.dubbo.config.spring.ServiceBean]; scope=; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null] of ServiceBean has been registered with name : ServiceBean:marketActServiceImpl:com.comma.fit.fitcrm.market.service.IMarketActService:1.0.0, dubbo version: 2.6.4, current host: 172.16.3.178
+2019-02-14 18:49:24.063 [main] WARN  org.springframework.context.annotation.ConfigurationClassPostProcessor - Cannot enhance @Configuration bean definition 'com.alibaba.boot.dubbo.autoconfigure.DubboAutoConfiguration' since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor return type: Consider declaring such methods as 'static'.
+2019-02-14 18:49:57.264 [main] WARN  com.alibaba.dubbo.config.spring.extension.SpringExtensionFactory -  [DUBBO] No spring extension(bean) named:defaultCompiler, try to find an extension(bean) of type java.lang.String, dubbo version: 2.6.4, current host: 172.16.3.178
+2019-02-14 18:49:57.264 [main] WARN  com.alibaba.dubbo.config.spring.extension.SpringExtensionFactory -  [DUBBO] No spring extension(bean) named:defaultCompiler, type:java.lang.String found, stop get bean., dubbo version: 2.6.4, current host: 172.16.3.178
+2019-02-14 22:22:39.743 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Client session timed out, have not heard from server in 12110333ms for sessionid 0x1003a1dca9d06bc
+2019-02-14 22:22:39.910 [Curator-ConnectionStateManager-0] WARN  com.imadcn.framework.idworker.register.zookeeper.ZookeeperConnectionStateListener - zookeeper suspended, try to register new worker id.
+2019-02-14 22:22:41.202 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Session 0x1003a1dca9d06bc for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.SocketException: Network is unreachable
+	at sun.nio.ch.Net.connect0(Native Method)
+	at sun.nio.ch.Net.connect(Net.java:454)
+	at sun.nio.ch.Net.connect(Net.java:446)
+	at sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:648)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.registerAndConnect(ClientCnxnSocketNIO.java:277)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.connect(ClientCnxnSocketNIO.java:287)
+	at org.apache.zookeeper.ClientCnxn$SendThread.startConnect(ClientCnxn.java:1024)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1060)
+2019-02-14 22:22:43.197 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Session 0x1003a1dca9d06bc for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.SocketException: Network is unreachable
+	at sun.nio.ch.Net.connect0(Native Method)
+	at sun.nio.ch.Net.connect(Net.java:454)
+	at sun.nio.ch.Net.connect(Net.java:446)
+	at sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:648)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.registerAndConnect(ClientCnxnSocketNIO.java:277)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.connect(ClientCnxnSocketNIO.java:287)
+	at org.apache.zookeeper.ClientCnxn$SendThread.startConnect(ClientCnxn.java:1024)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1060)
+2019-02-14 22:22:44.868 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Session 0x1003a1dca9d06bc for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.SocketException: Network is unreachable
+	at sun.nio.ch.Net.connect0(Native Method)
+	at sun.nio.ch.Net.connect(Net.java:454)
+	at sun.nio.ch.Net.connect(Net.java:446)
+	at sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:648)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.registerAndConnect(ClientCnxnSocketNIO.java:277)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.connect(ClientCnxnSocketNIO.java:287)
+	at org.apache.zookeeper.ClientCnxn$SendThread.startConnect(ClientCnxn.java:1024)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1060)
+2019-02-14 22:22:46.408 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Session 0x1003a1dca9d06bc for server null, unexpected error, closing socket connection and attempting reconnect
+java.net.SocketException: Network is unreachable
+	at sun.nio.ch.Net.connect0(Native Method)
+	at sun.nio.ch.Net.connect(Net.java:454)
+	at sun.nio.ch.Net.connect(Net.java:446)
+	at sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:648)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.registerAndConnect(ClientCnxnSocketNIO.java:277)
+	at org.apache.zookeeper.ClientCnxnSocketNIO.connect(ClientCnxnSocketNIO.java:287)
+	at org.apache.zookeeper.ClientCnxn$SendThread.startConnect(ClientCnxn.java:1024)
+	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1060)
+2019-02-14 22:22:46.461 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Client session timed out, have not heard from server in 12110331ms for sessionid 0x1003a1dca9d06bd
+2019-02-14 22:22:47.651 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Unable to reconnect to ZooKeeper service, session 0x1003a1dca9d06bc has expired
+2019-02-14 22:22:47.651 [main-EventThread] WARN  org.apache.curator.ConnectionState - Session expired event received
+2019-02-14 22:22:48.247 [main-SendThread(120.77.177.183:2181)] WARN  org.apache.zookeeper.ClientCnxn - Unable to reconnect to ZooKeeper service, session 0x1003a1dca9d06bd has expired
+2019-02-14 22:22:48.254 [main-EventThread] WARN  org.apache.curator.ConnectionState - Session expired event received
+2019-02-14 22:23:03.506 [Curator-ConnectionStateManager-0] WARN  com.imadcn.framework.idworker.register.zookeeper.ZookeeperConnectionStateListener - zookeeper connection session lost, try to register new worker id.

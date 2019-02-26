@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.comma.fit.fitcrm.market.mapper.ICouponMapper">
+	<resultMap id="CouponEntityMap" type="com.comma.fit.fitcrm.market.entity.CouponEntity">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="equityId" jdbcType="INTEGER" column="equity_id"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="description" jdbcType="VARCHAR" column="description"/>
+		<result property="aim" jdbcType="VARCHAR" column="aim"/>
+		<result property="limitNum" jdbcType="BIT" column="limit_num"/>
+		<result property="startTime" jdbcType="TIMESTAMP" column="start_time"/>
+		<result property="endTime" jdbcType="TIMESTAMP" column="end_time"/>
+		<result property="validDays" jdbcType="INTEGER" column="valid_days"/>
+		<result property="receiveNum" jdbcType="INTEGER" column="receive_num"/>
+		<result property="issueChannel" jdbcType="BIT" column="issue_channel"/>
+		<result property="couponType" jdbcType="BIT" column="coupon_type"/>
+		<result property="userType" jdbcType="BIT" column="user_type"/>
+		<result property="validType" jdbcType="BIT" column="valid_type"/>
+		<result property="gymType" jdbcType="TINYINT" column="gym_type"/>
+		<result property="operateId" jdbcType="INTEGER" column="operate_id"/>
+		<result property="operateName" jdbcType="VARCHAR" column="operate_name"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+		<result property="useNum" jdbcType="INTEGER" column="use_num"/>
+		<result property="updateName" jdbcType="VARCHAR" column="update_name"/>
+		<result property="updateId" jdbcType="INTEGER" column="update_id"/>
+		<result property="price" jdbcType="DECIMAL" column="price"/>
+		<result property="satisfyPrice" jdbcType="DECIMAL" column="satisfy_price"/>
+		<result property="issueNum" jdbcType="INTEGER" column="issue_num"/>
+		<result property="version" jdbcType="INTEGER" column="version"/>
+		<result property="status" jdbcType="TINYINT" column="status"/>
+	</resultMap>
+	<sql id="BaseColumn">
+		id,
+		equity_id,
+		`name`,
+		description,
+		aim,
+		limit_num,
+		start_time,
+		end_time,
+		valid_days,
+		receive_num,
+		issue_channel,
+		coupon_type,
+		user_type,
+		valid_type,
+		gym_type,
+		operate_id,
+		operate_name,
+		create_time,
+		update_time,
+		use_num,
+		update_name,
+		update_id,
+		price,
+		satisfy_price,
+		issue_num,
+		version,
+		status
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="CouponEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM t_coupon 
+		WHERE 
+			id = #{id} 
+	</select>
+
+	<select id="selectCouponOrNewUserByCouponId" parameterType="com.comma.fit.fitcrm.market.entity.CouponEntity" resultMap="CouponEntityMap">
+		SELECT
+			<include refid="BaseColumn" />
+		FROM t_coupon
+		WHERE
+			id = #{id}
+			<if test="isNewUser!=null">
+				or coupon_type=#{couponType}
+			</if>
+	</select>
+
+	<!-- 按Id删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM t_coupon WHERE
+		id = #{id} 
+	</delete>
+	 <!-- 插入 -->
+	<insert id="save" parameterType="com.comma.fit.fitcrm.market.entity.CouponEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_coupon (
+			id,
+			equity_id,
+			`name`,
+			description,
+			aim,
+			limit_num,
+			start_time,
+			end_time,
+			valid_days,
+			receive_num,
+			issue_channel,
+			coupon_type,
+			user_type,
+			valid_type,
+			gym_type,
+			operate_id,
+			operate_name,
+			create_time,
+			update_time,
+			use_num,
+			update_name,
+			update_id,
+			price,
+			satisfy_price,
+			issue_num,
+			version,
+			status
+		) VALUES (
+			#{id,jdbcType=INTEGER},
+			#{equityId,jdbcType=INTEGER},
+			#{name,jdbcType=VARCHAR},
+			#{description,jdbcType=VARCHAR},
+			#{aim,jdbcType=VARCHAR},
+			#{limitNum,jdbcType=BIT},
+			#{startTime,jdbcType=TIMESTAMP},
+			#{endTime,jdbcType=TIMESTAMP},
+			#{validDays,jdbcType=INTEGER},
+			#{receiveNum,jdbcType=INTEGER},
+			#{issueChannel,jdbcType=BIT},
+			#{couponType,jdbcType=BIT},
+			#{userType,jdbcType=BIT},
+			#{validType,jdbcType=BIT},
+			#{gymType,jdbcType=TINYINT},
+			#{operateId,jdbcType=INTEGER},
+			#{operateName,jdbcType=VARCHAR},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{updateTime,jdbcType=TIMESTAMP},
+			#{useNum,jdbcType=INTEGER},
+			#{updateName,jdbcType=VARCHAR},
+			#{updateId,jdbcType=INTEGER},
+			#{price,jdbcType=DECIMAL},
+			#{satisfyPrice,jdbcType=DECIMAL},
+			#{issueNum,jdbcType=INTEGER},
+			#{version,jdbcType=INTEGER},
+			#{status,jdbcType=TINYINT}
+		)
+		
+	</insert>
+	
+	<select id="query" parameterType="com.comma.fit.fitcrm.market.entity.CouponEntity" resultMap="CouponEntityMap">
+		SELECT 
+			<include refid="BaseColumn" />
+		FROM t_coupon
+		<where>
+			<if test="couponType!=null and couponType!=''">
+				and coupon_type = #{couponType}
+			</if>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="equityId!=null and equityId!=''">
+				and equity_id = #{equityId}
+			</if>
+			<if test="name!=null and name!=''">
+				and name = #{name}
+			</if>
+			<if test="description!=null and description!=''">
+				and description = #{description}
+			</if>
+			<if test="aim!=null and aim!=''">
+				and aim = #{aim}
+			</if>
+			<if test="limitNum!=null and limitNum!=''">
+				and limit_num = #{limitNum}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and start_time = #{startTime}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and end_time = #{endTime}
+			</if>
+			<if test="validDays!=null and validDays!=''">
+				and valid_days = #{validDays}
+			</if>
+			<if test="receiveNum!=null and receiveNum!=''">
+				and receive_num = #{receiveNum}
+			</if>
+			<if test="issueChannel!=null and issueChannel!=''">
+				and issue_channel = #{issueChannel}
+			</if>
+			<if test="userType!=null and userType!=''">
+				and user_type = #{userType}
+			</if>
+			<if test="validType!=null and validType!=''">
+				and valid_type = #{validType}
+			</if>
+			<if test="gymType!=null and gymType!=''">
+				and gym_type = #{gymType}
+			</if>
+			<if test="operateId!=null and operateId!=''">
+				and operate_id = #{operateId}
+			</if>
+			<if test="operateName!=null and operateName!=''">
+				and operate_name = #{operateName}
+			</if>
+			<if test="createTime!=null and createTime!=''">
+				and create_time = #{createTime}
+			</if>
+			<if test="updateTime!=null and updateTime!=''">
+				and update_time = #{updateTime}
+			</if>
+			<if test="useNum!=null and useNum!=''">
+				and use_num = #{useNum}
+			</if>
+			<if test="updateName!=null and updateName!=''">
+				and update_name = #{updateName}
+			</if>
+			<if test="updateId!=null and updateId!=''">
+				and update_id = #{updateId}
+			</if>
+			<if test="price!=null and price!=''">
+				and price = #{price}
+			</if>
+			<if test="satisfyPrice!=null and satisfyPrice!=''">
+				and satisfy_price = #{satisfyPrice}
+			</if>
+			<if test="issueNum!=null and issueNum!=''">
+				and issue_num = #{issueNum}
+			</if>
+			<if test="version!=null and version!=''">
+				and version = #{version}
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+		</where>
+		order by id desc
+	</select>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.comma.fit.fitcrm.market.entity.CouponEntity">
+		UPDATE t_coupon 
+			<set>
+				<if test="equityId!=null and equityId!=''">
+				equity_id = #{equityId,jdbcType=INTEGER},
+				</if>
+				<if test="name!=null and name!=''">
+				`name` = #{name,jdbcType=VARCHAR},
+				</if>
+				<if test="description!=null and description!=''">
+				description = #{description,jdbcType=VARCHAR},
+				</if>
+				<if test="aim!=null and aim!=''">
+				aim = #{aim,jdbcType=VARCHAR},
+				</if>
+				<if test="limitNum!=null">
+				limit_num = #{limitNum,jdbcType=INTEGER},
+				</if>
+				<if test="startTime!=null">
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="endTime!=null">
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="validDays!=null and validDays!=''">
+				valid_days = #{validDays,jdbcType=INTEGER},
+				</if>
+				<if test="receiveNum!=null and receiveNum!=''">
+				receive_num = #{receiveNum,jdbcType=INTEGER},
+				</if>
+				<if test="issueChannel!=null and issueChannel!=''">
+				issue_channel = #{issueChannel,jdbcType=INTEGER},
+				</if>
+				<if test="couponType!=null and couponType!=''">
+				coupon_type = #{couponType,jdbcType=INTEGER},
+				</if>
+				<if test="userType!=null and userType!=''">
+				user_type = #{userType,jdbcType=INTEGER},
+				</if>
+				<if test="validType!=null and validType!=''">
+				valid_type = #{validType,jdbcType=INTEGER},
+				</if>
+				<if test="gymType!=null and gymType!=''">
+				gym_type = #{gymType,jdbcType=TINYINT},
+				</if>
+				<if test="operateId!=null and operateId!=''">
+				operate_id = #{operateId,jdbcType=INTEGER},
+				</if>
+				<if test="operateName!=null and operateName!=''">
+				operate_name = #{operateName,jdbcType=VARCHAR},
+				</if>
+				<if test="createTime!=null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="updateTime!=null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="useNum!=null and useNum!=''">
+				use_num = #{useNum,jdbcType=INTEGER},
+				</if>
+				<if test="updateName!=null and updateName!=''">
+				update_name = #{updateName,jdbcType=VARCHAR},
+				</if>
+				<if test="updateId!=null and updateId!=''">
+				update_id = #{updateId,jdbcType=INTEGER},
+				</if>
+				<if test="price!=null and price!=''">
+				price = #{price,jdbcType=DECIMAL},
+				</if>
+				<if test="satisfyPrice!=null and satisfyPrice!=''">
+				satisfy_price = #{satisfyPrice,jdbcType=DECIMAL},
+				</if>
+				<if test="issueNum!=null and issueNum!=''">
+				issue_num = #{issueNum,jdbcType=INTEGER},
+				</if>
+				version = version+1,
+				<if test="status!=null and status!=''">
+				status = #{status,jdbcType=TINYINT}
+				</if>
+			</set>
+		WHERE 
+			id = #{id,jdbcType=INTEGER} and version = #{version,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

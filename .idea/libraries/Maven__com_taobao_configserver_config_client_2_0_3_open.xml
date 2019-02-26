@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.taobao.configserver:config-client:2.0.3-open">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/taobao/configserver/config-client/2.0.3-open/config-client-2.0.3-open.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/taobao/configserver/config-client/2.0.3-open/config-client-2.0.3-open-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/taobao/configserver/config-client/2.0.3-open/config-client-2.0.3-open-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

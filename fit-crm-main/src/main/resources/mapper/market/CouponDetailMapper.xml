@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.comma.fit.fitcrm.market.mapper.ICouponDetailMapper">
+	<resultMap id="CouponDetailEntityMap" type="com.comma.fit.fitcrm.market.entity.CouponDetailEntity">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="code" jdbcType="VARCHAR" column="code"/>
+		<result property="couponId" jdbcType="INTEGER" column="coupon_id"/>
+		<result property="status" jdbcType="VARCHAR" column="status"/>
+		<result property="userId" jdbcType="INTEGER" column="user_id"/>
+		<result property="startTime" jdbcType="TIMESTAMP" column="start_time"/>
+		<result property="endTime" jdbcType="TIMESTAMP" column="end_time"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="useTime" jdbcType="TIMESTAMP" column="use_time"/>
+		<result property="gymId" jdbcType="INTEGER" column="gym_id"/>
+		<result property="gymName" jdbcType="VARCHAR" column="gym_name"/>
+		<result property="productId" jdbcType="INTEGER" column="product_id"/>
+		<result property="productName" jdbcType="VARCHAR" column="product_name"/>
+		<result property="orderId" jdbcType="INTEGER" column="order_id"/>
+		<result property="orderNo" jdbcType="VARCHAR" column="order_no"/>
+		<result property="version" jdbcType="INTEGER" column="version"/>
+		<result property="identityAttribute" jdbcType="INTEGER" column="identity_attribute"/>
+	</resultMap>
+	<sql id="BaseColumn">
+		id,
+		code,
+		coupon_id,
+		status,
+		user_id,
+		start_time,
+		end_time,
+		create_time,
+		use_time,
+		gym_id,
+		gym_name,
+		product_id,
+		product_name,
+		order_id,
+		order_no,
+		version,
+		identity_attribute
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="CouponDetailEntityMap">
+		SELECT
+		cd.id,
+		cd.code,
+		cd.coupon_id,
+		cd.status,
+		cd.user_id,
+		cd.start_time,
+		cd.end_time,
+		cd.create_time,
+		cd.use_time,
+		cd.gym_id,
+		cd.gym_name,
+		cd.product_id,
+		cd.product_name,
+		cd.order_id,
+		cd.order_no,
+		cd.version,
+		cd.identity_attribute,
+		tc.coupon_type `couponType`,
+		tc.price `price`,
+		tc.name `couponName`
+		FROM t_coupon_detail cd
+		left join t_coupon tc on cd.coupon_id=tc.id
+		WHERE
+			cd.id = #{id}
+	</select>
+
+	<select id="queryGymNameById" parameterType="java.lang.Integer" resultType="string">
+		SELECT
+			gym_name `gymName`
+		FROM t_gym
+		WHERE
+			id = #{gymId}
+	</select>
+
+	<select id="queryCourseInfoByCourseProductManageId" parameterType="java.lang.Integer" resultType="com.comma.fit.fitcrm.market.entity.CourseInfoEntity">
+		SELECT
+			tp.NAME `productName`,
+			ci.NAME `courseName`,
+			ci.course_type `courseType`
+		FROM
+			t_course_product_manage pm
+			LEFT JOIN t_course_ip ci ON pm.course_id = ci.id
+			LEFT JOIN t_product tp ON tp.entity_id = pm.entity_id
+		WHERE
+			pm.id = #{courseProductManageId}
+	</select>
+
+	<select id="queryOrderIdByNo" parameterType="java.lang.String" resultType="integer">
+		select id `orderId`
+		from t_order
+		WHERE
+			order_num = #{orderNo}
+	</select>
+
+	<!-- 按Id删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM t_coupon_detail WHERE
+		id = #{id} 
+	</delete>
+	 <!-- 插入 -->
+	<insert id="save" parameterType="com.comma.fit.fitcrm.market.entity.CouponDetailEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_coupon_detail (
+			id,
+			code,
+			coupon_id,
+			status,
+			user_id,
+			start_time,
+			end_time,
+			create_time,
+			use_time,
+			gym_id,
+			gym_name,
+			product_id,
+			product_name,
+			order_id,
+			order_no,
+			version,
+			identity_attribute
+		) VALUES (
+			#{id,jdbcType=INTEGER},
+			#{code,jdbcType=VARCHAR},
+			#{couponId,jdbcType=INTEGER},
+			#{status,jdbcType=VARCHAR},
+			#{userId,jdbcType=INTEGER},
+			#{startTime,jdbcType=TIMESTAMP},
+			#{endTime,jdbcType=TIMESTAMP},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{useTime,jdbcType=TIMESTAMP},
+			#{gymId,jdbcType=INTEGER},
+			#{gymName,jdbcType=VARCHAR},
+			#{productId,jdbcType=INTEGER},
+			#{productName,jdbcType=VARCHAR},
+			#{orderId,jdbcType=INTEGER},
+			#{orderNo,jdbcType=VARCHAR},
+			#{version,jdbcType=INTEGER},
+			#{identityAttribute,jdbcType=INTEGER}
+		)
+		
+	</insert>
+
+	<select id="queryCountByUserIdAndCouponId" parameterType="com.comma.fit.fitcrm.market.entity.CouponDetailEntity" resultType="int">
+		SELECT
+		count(*)
+		FROM t_coupon_detail cd
+		where cd.user_id=#{userId} and cd.coupon_Id=#{couponId}
+	</select>
+	<select id="queryCountByUserIdAndType" parameterType="com.comma.fit.fitcrm.market.entity.CouponDetailEntity" resultType="int">
+	   SELECT
+		  count(*)
+	   FROM t_coupon_detail cd
+	   left join  t_coupon c on cd.coupon_id=c.id
+	   where cd.user_id=#{userId} and c.coupon_type=#{couponType}
+		<if test="identityAttribute!=null and identityAttribute!=''">
+			and identity_attribute = #{identityAttribute}
+		</if>
+	</select>
+
+	<select id="queryCountByInviteUserId" parameterType="int" resultType="int">
+		SELECT
+		count(*)
+		FROM t_user
+		where invite_user_id=#{userId}
+	</select>
+
+	<select id="queryFailureCouponDetail" resultMap="CouponDetailEntityMap">
+		select id,version from t_coupon_detail where end_time <![CDATA[ <NOW() ]]> ;
+	</select>
+
+	<select id="query" parameterType="com.comma.fit.fitcrm.market.entity.CouponDetailEntity" resultMap="CouponDetailEntityMap">
+		SELECT
+		cd.id,
+		cd.code,
+		cd.coupon_id,
+		cd.status,
+		cd.user_id,
+		cd.start_time,
+		cd.end_time,
+		cd.create_time,
+		cd.use_time,
+		cd.gym_id,
+		cd.gym_name,
+		cd.product_id,
+		cd.product_name,
+		cd.order_id,
+		cd.order_no,
+		cd.version,
+		cd.identity_attribute,
+		tc.coupon_type `couponType`,
+		tc.price `price`,
+		tc.name `couponName`,
+		tc.aim `aim`,
+		tu.nickname `nickName`,
+		tu.phone `phone`
+		FROM t_coupon_detail cd
+		left join t_coupon tc on cd.coupon_id=tc.id
+		left join t_user tu on cd.user_id=tu.id
+		<where>
+			<if test="code!=null and code!=''">
+				and cd.code = #{code}
+			</if>
+			<if test="couponId!=null and couponId!=''">
+				and cd.coupon_id = #{couponId}
+			</if>
+			<if test="status!=null and status!=''">
+				and cd.status = #{status}
+			</if>
+			<if test="couponName!=null and couponName!=''">
+				and tc.name = #{couponName}
+			</if>
+			<if test="nickName!=null and nickName!=''">
+				and (tu.nickname = #{nickName} or tu.phone = #{nickName})
+			</if>
+			<if test="userId!=null and userId!=''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by id desc
+	</select>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.comma.fit.fitcrm.market.entity.CouponDetailEntity">
+		UPDATE t_coupon_detail 
+			<set>
+				<if test="code!=null and code!=''">
+				code = #{code,jdbcType=VARCHAR},
+				</if>
+				<if test="couponId!=null and couponId!=''">
+				coupon_id = #{couponId,jdbcType=INTEGER},
+				</if>
+				<if test="status!=null and status!=''">
+				status = #{status,jdbcType=VARCHAR},
+				</if>
+				<if test="userId!=null and userId!=''">
+				user_id = #{userId,jdbcType=INTEGER},
+				</if>
+				<if test="startTime!=null">
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="endTime!=null">
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="createTime!=null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="useTime!=null">
+				use_time = #{useTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="gymId!=null and gymId!=''">
+				gym_id = #{gymId,jdbcType=INTEGER},
+				</if>
+				<if test="gymName!=null and gymName!=''">
+				gym_name = #{gymName,jdbcType=VARCHAR},
+				</if>
+				<if test="productId!=null and productId!=''">
+				product_id = #{productId,jdbcType=INTEGER},
+				</if>
+				<if test="productName!=null and productName!=''">
+				product_name = #{productName,jdbcType=VARCHAR},
+				</if>
+				<if test="orderId!=null and orderId!=''">
+				order_id = #{orderId,jdbcType=INTEGER},
+				</if>
+				<if test="orderNo!=null and orderNo!=''">
+				order_no = #{orderNo,jdbcType=VARCHAR},
+				</if>
+				<if test="version!=null and version!=''">
+				version = #{version,jdbcType=INTEGER},
+				</if>
+				<if test="identityAttribute!=null and identityAttribute!=''">
+				identity_attribute = #{identityAttribute,jdbcType=INTEGER}
+				</if>
+			</set>
+		WHERE 
+			id = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 更新 -->
+	<update id="editFailureCouponStatus" parameterType="string">
+		UPDATE t_coupon_detail
+		<set>
+			status = #{status,jdbcType=VARCHAR}
+		</set>
+		WHERE
+		id in (select * from (select id from t_coupon_detail where end_time <![CDATA[ <NOW() ]]> and status="1") a)
+  	</update>
+</mapper>
